@@ -1,28 +1,13 @@
 // import React, { Component } from 'react';
 import axios from 'axios';
 import React, { useEffect, useState, Component } from 'react';
+import {  Link } from "react-router-dom";
 
 
 class Features extends Component {
 
     url='https://pokeapi.co/api/v2/pokemon/';
 
-    // const fetchPokemon = () => {
-    //     const promises = [];
-    //     for (let i = 1; i <= 150; i++) {
-    //         const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
-    //         promises.push(fetch(url).then((res) => res.json()));
-    //     }
-    //     Promise.all(promises).then((results) => {
-    //         const pokemon = results.map((result) => ({
-    //             name: result.name,
-    //             image: result.sprites['front_default'],
-    //             type: result.types.map((type) => type.type.name).join(', '),
-    //             id: result.id
-    // }));
-    //         displayPokemon(pokemon);
-    //     });
-    // };.
     
   state = {
     pokemons: []
@@ -31,7 +16,6 @@ class Features extends Component {
   componentDidMount(){
 
     axios.get(this.url).then(x=>{
-        // this.state.pokemons=x.data.results;
         console.log(this.state.pokemons);
         this.setState({
             pokemons:x.data.results
@@ -39,7 +23,14 @@ class Features extends Component {
     })
   }
    
-
+replacer(str){
+if (str) {
+  str= str.replace("https://pokeapi.co/api/v2/pokemon/", "");
+  return str.replace("/", "");
+}else{
+  return null;
+}
+}
 
 
   render() {
@@ -61,7 +52,7 @@ class Features extends Component {
             <tr>
             <th scope="row">{index+1}</th>
             <td>{gu.name}</td>
-            <td>{gu.url}</td>
+            <td><button> <Link to={"/details/"+this.replacer(gu.url)}>View details</Link> </button>  {this.replacer(gu.url)}</td>
           </tr>
 
           )
